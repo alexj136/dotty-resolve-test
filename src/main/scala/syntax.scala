@@ -9,7 +9,7 @@ case class Abs(varName: String, argType: Type, body: Term) extends Term
 abstract class Decl
 case class FieldDef(name: String, body: Term) extends Decl
 case class TypeDef(name: String, typ: Type) extends Decl
-case class Agg(a: Decl, b: Decl) extends Decl
+case class Agg(decls: List[Decl]) extends Decl
 
 abstract class Type
 case class FieldDec(name: String, typ: Type) extends Type
@@ -31,6 +31,20 @@ object prettyPrint {
     case Object(name, body) => s"new { val $name = this\n$body }"
     case Abs(varName, argType, body) => s"{ $varName: $argType => $body }"
   }
-  def apply(decl: Decl) = ???
-  def apply(typ: Type) = ???
+  def apply(decl: Decl) = decl match {
+    case FieldDef(name, body) => s"val $name = $body"
+    case TypeDef(name, typ) => s"type $name = $typ"
+    case Agg(decls) => decls mkString "\n"
+  }
+  def apply(typ: Type) = typ match {
+    case FieldDec(name, typ) => ???
+    case Intersec(a, b) => ???
+    case Rec(name, typ) => ???
+    case TypeDec(name, lower, upper) => ???
+    case TypeProj(typ, name) => ???
+    case DepFun(name, argType, retType) => ???
+    case ImFun(name, argType, retType) => ???
+    case Top => "AnyRef"
+    case Bot => "Nothing"
+  }
 }
