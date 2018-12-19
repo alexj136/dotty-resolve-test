@@ -12,15 +12,18 @@ case class TypeDef(name: String, typ: Type) extends Decl
 case class Agg(decls: List[Decl]) extends Decl
 
 abstract class Type
-case class FieldDec(name: String, typ: Type) extends Type
-case class Intersec(a: Type, b: Type) extends Type
-case class Rec(name: String, typ: Type) extends Type
-case class TypeDec(name: String, lower: Type, upper: Type) extends Type
-case class TypeProj(typ: Type, name: String) extends Type
-case class DepFun(name: String, argType: Type, retType: Type) extends Type
-case class ImFun(name: String, argType: Type, retType: Type) extends Type
 case object Top extends Type 
 case object Bot extends Type 
+case object IntT extends Type
+case class SetT(typ: Type) extends Type
+case class SortedSetT(typ: Type) extends Type
+case class Intersec(a: Type, b: Type) extends Type
+//case class FieldDec(name: String, typ: Type) extends Type
+//case class Rec(name: String, typ: Type) extends Type
+//case class TypeDec(name: String, lower: Type, upper: Type) extends Type
+//case class TypeProj(typ: Type, name: String) extends Type
+//case class DepFun(name: String, argType: Type, retType: Type) extends Type
+//case class ImDepFun(name: String, argType: Type, retType: Type) extends Type
 
 object prettyPrint {
   def apply(term: Term): String = term match {
@@ -37,14 +40,17 @@ object prettyPrint {
     case Agg(decls) => decls mkString "\n"
   }
   def apply(typ: Type) = typ match {
-    case FieldDec(name, typ) => ???
-    case Intersec(a, b) => s"$a with $b"
-    case Rec(name, typ) => ???
-    case TypeDec(name, lower, upper) => ???
-    case TypeProj(typ, name) => ???
-    case DepFun(name, argType, retType) => ???
-    case ImFun(name, argType, retType) => ???
     case Top => "AnyRef"
     case Bot => "Nothing"
+    case IntT => "Int"
+    case SetT(typ) => s"Set[$typ]"
+    case SortedSetT(typ) => s"SortedSet[$typ]"
+    case Intersec(a, b) => s"$a with $b"
+    //case FieldDec(name, typ) => ???
+    //case Rec(name, typ) => ???
+    //case TypeDec(name, lower, upper) => ???
+    //case TypeProj(typ, name) => ???
+    //case DepFun(name, argType, retType) => ???
+    //case ImDepFun(name, argType, retType) => ???
   }
 }
