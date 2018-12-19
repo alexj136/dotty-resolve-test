@@ -38,7 +38,7 @@ object prettyPrint {
   }
   def apply(typ: Type) = typ match {
     case FieldDec(name, typ) => ???
-    case Intersec(a, b) => ???
+    case Intersec(a, b) => s"$a with $b"
     case Rec(name, typ) => ???
     case TypeDec(name, lower, upper) => ???
     case TypeProj(typ, name) => ???
