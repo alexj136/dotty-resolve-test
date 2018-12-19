@@ -1,4 +1,4 @@
-object A {
+object Sample1 {
   def main(args: Array[String]): Unit = println(f())
   def f(): Int = {
     implicit val one: Int = 1
